@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	logger := prettylog.GetConsoleLogger()
+	logger := prettylog.GetConsoleAndFileLogger()
 	// Looks like we have to end with `Msg` for the log message to appear
 	logger.Info().Str("hello", "world").Msg("hi")
 	fmt.Println("hello world!")
