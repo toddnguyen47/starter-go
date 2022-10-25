@@ -1,0 +1,36 @@
+import (
+	"context"
+	"io"
+	"testing"
+
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+)
+
+// TODO: Rename `RenameYourTestClassTestSuite`
+func TestRenameYourTestClassTestSuite(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "RenameYourTestClassTestSuite")
+}
+
+var _ = Describe("RenameYourTestClassTestSuite", func() {
+
+	var ctxBg context.Context
+
+	BeforeEach(func() {
+		resetMonkeyPatching()
+		ctxBg = context.Background()
+	})
+
+	When("JSON Marshal error", func() {
+		It("returns an error", func() {
+			var err error = nil
+			Expect(err).To(BeNil())
+			Expect(ctxBg).To(Equal(context.Background()))
+		})
+	})
+})
+
+func resetMonkeyPatching() {
+	_ioReadAll = io.ReadAll
+}
