@@ -7,7 +7,8 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-// TODO: Rename `RenameYourTestClassTestSuite`
+// TODO: Rename `RenameYourTestClassTestSuite`.
+// NOTE: You only need ONE of the `RunSpecs` function in your whole package / suite!
 func TestRenameYourTestClassTestSuite(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "RenameYourTestClassTestSuite")
@@ -24,7 +25,10 @@ var _ = Describe("RenameYourTestClassTestSuite", func() {
 
 	When("JSON Marshal error", func() {
 		It("returns an error", func() {
+			// -- ARRANGE --
 			var err error = nil
+			// -- ACT --
+			// -- ASSERT --
 			Expect(err).To(BeNil())
 			Expect(ctxBg).To(Equal(context.Background()))
 		})
