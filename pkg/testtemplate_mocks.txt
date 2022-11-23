@@ -26,3 +26,7 @@ func (m *mockClientStruct) Do(req *http.Request) (*http.Response, error) {
 	args := m.Called(req)
 	return args.Get(0).(*http.Response), args.Error(1)
 }
+
+func getHttpBody(input string) io.ReadCloser {
+	return io.NopCloser(bytes.NewReader([]byte(input)))
+}

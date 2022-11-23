@@ -38,3 +38,11 @@ var _ = Describe("RenameYourTestClassTestSuite", func() {
 func resetMonkeyPatching() {
 	_ioReadAll = io.ReadAll
 }
+
+func expectErrToBeNil(errInput error) {
+	Expect(errInput).To(BeNil())
+}
+
+func expectErrToNotBeNil(errInput error) {
+	Expect(errInput).To(Not(BeNil()))
+}
