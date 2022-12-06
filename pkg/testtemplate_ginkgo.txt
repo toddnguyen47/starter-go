@@ -7,10 +7,13 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+var _curTestSuite *testing.T
+
 // TODO: Rename `RenameYourTestClassTestSuite`.
 // NOTE: You only need ONE of the `RunSpecs` function in your whole package / suite!
 func TestRenameYourTestClassTestSuite(t *testing.T) {
 	RegisterFailHandler(Fail)
+	_curTestSuite = t
 	RunSpecs(t, "RenameYourTestClassTestSuite")
 }
 
