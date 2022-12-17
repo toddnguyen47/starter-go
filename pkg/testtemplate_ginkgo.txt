@@ -14,7 +14,10 @@ var _curTestSuite *testing.T
 func TestRenameYourTestClassTestSuite(t *testing.T) {
 	RegisterFailHandler(Fail)
 	_curTestSuite = t
-	RunSpecs(t, "RenameYourTestClassTestSuite")
+	// fetch the current config
+	suiteConfig1, reporterConfig1 := GinkgoConfiguration()
+	suiteConfig1.RandomizeAllSpecs = true
+	RunSpecs(t, "RenameYourTestClassTestSuite", suiteConfig1, reporterConfig1)
 }
 
 var _ = Describe("RenameYourTestClassTestSuite", func() {
