@@ -1,5 +1,8 @@
 import "errors"
 
+// ------------------------------------------------------------
+// #region errReadCloser
+
 // errReadCloser - Ref: https://stackoverflow.com/a/45126402/6323360
 type errReadCloser int
 
@@ -11,22 +14,49 @@ func (m errReadCloser) Close() error {
 	return nil
 }
 
+// #endregion
+// o----------------------------------------------------------o
+
+
+// ------------------------------------------------------------
+// #region mockClientStruct
+
 // mockClientStruct - mocking HTTP Client
 type mockClientStruct struct {
-	mock.Mock
-	numDoErrCount int
+	numDoCount    uint32
+	numDoErrCount uint32
+	t             *testing.T
 }
 
 func (m *mockClientStruct) Do(req *http.Request) (*http.Response, error) {
-	if m.numDoErrCount > 0 {
-		m.numDoErrCount -= 1
-		return nil, errors.New("some error")
+	atomic.AddUint32(&m.numDoCount, 1)
+	if atomic.LoadUint32(&m.numDoErrCount) > 0 {
+		atomic.AddUint32(&m.numDoErrCount, ^uint32(0))
+		resp := http.Response{
+			StatusCode: http.StatusInternalServerError,
+			Body:       io.NopCloser(bytes.NewReader([]byte("{}"))),
+		}
+		return &resp, errors.New("some error")
 	}
 
-	args := m.Called(req)
-	return args.Get(0).(*http.Response), args.Error(1)
+	// Read body
+	if req.Body != nil {
+		b1, err := io.ReadAll(req.Body)
+		assert.Nil(m.t, err)
+		var output interface{}
+		err = json.Unmarshal(b1, &output)
+		assert.Nil(m.t, err)
+		err = req.Body.Close()
+		assert.Nil(m.t, err)
+	}
+
+	resp := http.Response{
+		StatusCode: 200,
+		Body:       getHttpBody("{}"),
+	}
+
+	return &resp, nil
 }
 
-func getHttpBody(input string) io.ReadCloser {
-	return io.NopCloser(bytes.NewReader([]byte(input)))
-}
+// # endregion
+// o----------------------------------------------------------o
