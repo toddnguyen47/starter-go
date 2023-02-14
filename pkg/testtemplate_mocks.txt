@@ -58,5 +58,9 @@ func (m *mockClientStruct) Do(req *http.Request) (*http.Response, error) {
 	return &resp, nil
 }
 
+func getHttpBody(str string) io.ReadCloser {
+	return io.NopCloser(bytes.NewReader([]byte(str)))
+}
+
 // # endregion
 // o----------------------------------------------------------o
