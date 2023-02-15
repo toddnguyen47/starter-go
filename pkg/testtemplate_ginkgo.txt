@@ -22,11 +22,11 @@ func Test{{RenameYourTestClassTestSuite}}(t *testing.T) {
 
 var _ = Describe("{{RenameYourTestClassTestSuite}}", func() {
 
-	var ctxBg context.Context
+	var _ctxBg context.Context
 
 	BeforeEach(func() {
 		resetMonkeyPatching()
-		ctxBg = context.Background()
+		_ctxBg = context.Background()
 	})
 
 	When("JSON Marshal error", func() {
@@ -36,7 +36,7 @@ var _ = Describe("{{RenameYourTestClassTestSuite}}", func() {
 			// -- ACT --
 			// -- ASSERT --
 			Expect(err).To(BeNil())
-			Expect(ctxBg).To(Equal(context.Background()))
+			Expect(_ctxBg).To(Equal(context.Background()))
 		})
 	})
 })
