@@ -22,7 +22,9 @@ func Test{{RenameYourTestClassTestSuite}}(t *testing.T) {
 
 var _ = Describe("{{RenameYourTestClassTestSuite}}", func() {
 
-	var _ctxBg context.Context
+	var (
+		_ctxBg context.Context
+	)
 
 	BeforeEach(func() {
 		resetMonkeyPatching()

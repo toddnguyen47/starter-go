@@ -1,4 +1,11 @@
-import "errors"
+import (
+	"context"
+	"errors"
+	"strings"
+	"testing"
+
+	"github.com/stretchr/testify/mock"
+)
 
 // ------------------------------------------------------------
 // #region errReadCloser
@@ -74,4 +81,79 @@ func getHttpBody(str string) io.ReadCloser {
 }
 
 // # endregion
+// o----------------------------------------------------------o
+
+// #region ResponseWriter mocks
+
+type responseWriterMock struct {
+	http.ResponseWriter
+
+	// "F" for fail, "P" for pass
+	passFailCodeWrite string
+	numWrites         uint32
+	bytesWritten      []byte
+}
+
+func (m *responseWriterMock) Write(input []byte) (int, error) {
+
+	atomic.AddUint32(&m.numWrites, 1)
+	if len(m.passFailCodeWrite) > 0 {
+		firstChar := m.passFailCodeWrite[0]
+		m.passFailCodeWrite = m.passFailCodeWrite[1:]
+		if firstChar == 'F' {
+			return 0, errForTests
+		}
+	}
+
+	m.bytesWritten = input
+	return 16, nil
+}
+
+func (m *responseWriterMock) Header() http.Header {
+	return http.Header{}
+}
+
+func (m *responseWriterMock) WriteHeader(_ int) {
+}
+
+// #endregion ResponseWriter mocks
+
+// ------------------------------------------------------------
+// #region removeFirstExpectedCalls
+
+type mockGetExpectedCalls interface {
+	GetExpectedCalls() []*mock.Call
+	SetExpectedCalls(expectedCalls []*mock.Call)
+}
+
+func removeFirstExpectedCalls(_ *testing.T, mock mockGetExpectedCalls, funcName string) {
+	idx := -1
+	expectedCalls := mock.GetExpectedCalls()
+	for i := range expectedCalls {
+		call := expectedCalls[i]
+		if strings.EqualFold(funcName, call.Method) {
+			idx = i
+			break
+		}
+	}
+
+	if idx != -1 {
+		expectedCalls = append(expectedCalls[:idx], expectedCalls[idx+1:]...)
+	}
+	mock.SetExpectedCalls(expectedCalls)
+}
+
+type mockStruct struct {
+	mock.Mock
+}
+
+func (m *mockStruct) GetExpectedCalls() []*mock.Call {
+	return m.ExpectedCalls
+}
+
+func (m *mockStruct) SetExpectedCalls(expectedCalls []*mock.Call) {
+	m.ExpectedCalls = expectedCalls
+}
+
+// #endregion removeFirstExpectedCalls
 // o----------------------------------------------------------o
