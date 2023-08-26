@@ -18,27 +18,6 @@ func (m errReadCloser) Close() error {
 // o----------------------------------------------------------o
 
 
-package channelmapping
-
-import (
-	"bytes"
-	"encoding/json"
-	"errors"
-	"io"
-	"net/http"
-	"sync/atomic"
-	"testing"
-
-	"github.com/spf13/viper"
-	"github.com/stretchr/testify/assert"
-)
-
-func Test_CoverConfig(t *testing.T) {
-	Initialize(viper.New())
-	InitializeClient()
-	assert.Equal(t, 42, funcToCoverFile())
-}
-
 // ------------------------------------------------------------
 // #region mockClientStruct
 
