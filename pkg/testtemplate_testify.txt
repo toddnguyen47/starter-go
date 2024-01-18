@@ -17,11 +17,14 @@ type {{RenameYourTestClassTestSuite}} struct {
 	ctxBg context.Context
 }
 
+// SetupTest - Do NOT change the name of this function! Our testify library expects this function as a setup.
 func (s *{{RenameYourTestClassTestSuite}}) SetupTest() {
 	s.resetMonkeyPatching()
 	s.ctxBg = context.Background()
 }
 
+// TearDownTest - Do NOT change the name of this function! Our testify library expects this function to tear down after
+// each test.
 func (s *{{RenameYourTestClassTestSuite}}) TearDownTest() {
 	s.resetMonkeyPatching()
 }
