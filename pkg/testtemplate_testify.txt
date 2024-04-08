@@ -11,7 +11,9 @@ import (
 // Define the suite, and absorb the built-in basic suite
 // functionality from testify - including a T() method which
 // returns the current testing context
-// TODO: Rename `{{RenameYourTestClassTestSuite}}` to your test suite name
+//
+// This file was obtained from `pkg/testtemmplate_testify.txt`
+// TODO: Rename `{{RenameYourTestClassTestSuite}}` to your test suite name, then delete this line
 type {{RenameYourTestClassTestSuite}} struct {
 	suite.Suite
 	ctxBg context.Context
