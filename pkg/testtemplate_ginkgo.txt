@@ -11,6 +11,7 @@ var _curTestSuite *testing.T
 
 // TODO: Rename `{{RenameYourTestClassTestSuite}}`.
 // NOTE: You only need ONE of the `RunSpecs` function in your whole package / suite!
+// Obtained from `pkg/testtemplate_ginkgo.txt`
 func Test{{RenameYourTestClassTestSuite}}(t *testing.T) {
 	RegisterFailHandler(Fail)
 	_curTestSuite = t
